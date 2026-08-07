@@ -51,8 +51,14 @@ def _ensure_fresh_dataset_root(config_path: str | None) -> None:
         return
     has_data = any(path.rglob("*.parquet")) or any(path.rglob("*.mp4"))
     if has_data:
-        print(f"[record] 数据集目录 {path} 已有数据，未改动；如需续采请使用 -r。")
-        return
+        print(
+            f"[record] 数据集目录 {path} 已存在 episode 数据（非空残留，不会自动删除）。\n"
+            f"  重录新数据集：先改名备份旧目录，例如\n"
+            f"    mv {path} {path}_backup\n"
+            f"  在旧数据集上继续采集：加 -r 参数，例如\n"
+            f"    pick-pika-record --config_path=... -r"
+        )
+        raise SystemExit(1)
     backup = path.parent / f"{path.name}_backup_{time.strftime('%Y%m%d_%H%M%S')}"
     os.rename(str(path), str(backup))
     print(
