@@ -439,6 +439,7 @@ def record(cfg: RecordConfig, async_save: bool = False) -> LeRobotDataset:
             image_writer_processes=cfg.dataset.num_image_writer_processes,
             image_writer_threads=cfg.dataset.num_image_writer_threads_per_camera * len(robot.cameras),
             batch_encoding_size=cfg.dataset.video_encoding_batch_size,
+            vcodec=cfg.dataset.vcodec,
         )
 
     # Load pretrained policy
