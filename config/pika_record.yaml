@@ -39,6 +39,7 @@ dataset:
   episode_time_s: 30
   reset_time_s: 10
   num_episodes: 30
-  # libsvtav1 不一定安装；libx264 基本所有 ffmpeg 都有，避免保存视频时报错
-  vcodec: "libx264"
+  # LeRobot 0.4.3 合法编码: h264 / hevc / libsvtav1。
+  # 用 h264：本机可正常解码（libsvtav1=AV1 在这台机器解不了）。
+  vcodec: "h264"
   push_to_hub: false
