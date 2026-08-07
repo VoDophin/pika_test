@@ -2,7 +2,7 @@ import numpy as np
 from lerobot.cameras.utils import make_cameras_from_configs
 from lerobot.robots import Robot
 from lerobot_pika_pick.context import get_active_teleop
-from .uf_mock_robot_config import UFMockRobotConfig
+from .mock_robot_config import UFMockRobotConfig
 
 
 CARTESIAN_OBS_KEYS = [
