@@ -1,4 +1,5 @@
 import sys
+import os
 import copy
 import time
 import queue
@@ -11,6 +12,52 @@ import lerobot_pika_pick  # noqa: F401  (registers uf::pika_teleop / uf::mock_ro
 from lerobot.scripts.lerobot_record import *
 from lerobot_pika_pick.base_teleop import UFBaseTeleop
 from lerobot_pika_pick.utils import init_keyboard_listener
+
+
+def _config_path_from_argv() -> str | None:
+    args = sys.argv[1:]
+    for i, arg in enumerate(args):
+        if arg.startswith("--config_path="):
+            return arg.split("=", 1)[1]
+        if arg == "--config_path" and i + 1 < len(args):
+            return args[i + 1]
+    return None
+
+
+def _ensure_fresh_dataset_root(config_path: str | None) -> None:
+    """Move an empty/residual dataset directory aside before recording.
+
+    LeRobotDataset.create() refuses to create a dataset whose root directory
+    already exists. A crashed/interrupted run can leave an empty (or meta-only)
+    directory behind; rename it so the new run starts fresh. Directories that
+    actually contain episodes are left untouched.
+    """
+    if not config_path:
+        return
+    try:
+        import yaml
+    except Exception:
+        return
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            raw = yaml.safe_load(f)
+    except Exception:
+        return
+    root = (raw or {}).get("dataset", {}).get("root")
+    if not root:
+        return
+    path = Path(root).expanduser()
+    if not path.exists() or not path.is_dir():
+        return
+    has_data = any(path.rglob("*.parquet")) or any(path.rglob("*.mp4"))
+    if has_data:
+        print(f"[record] 数据集目录 {path} 已有数据，未改动；如需续采请使用 -r。")
+        return
+    backup = path.parent / f"{path.name}_backup_{time.strftime('%Y%m%d_%H%M%S')}"
+    os.rename(str(path), str(backup))
+    print(
+        f"[record] 数据集目录 {path} 为空/残留，已备份到 {backup}，本次从全新目录开始。"
+    )
 
 
 def _get_dataset_writer(dataset):
@@ -583,6 +630,10 @@ def main():
     args, unknown = parser.parse_known_args()
     sys.argv = [sys.argv[0]] + unknown
     register_third_party_plugins()
+    if not args.r:
+        # Auto-backup an empty/residual dataset directory left by a previous
+        # crashed run; otherwise LeRobotDataset.create() raises FileExistsError.
+        _ensure_fresh_dataset_root(_config_path_from_argv())
     cfg = get_cfg()
     if args.r:
         cfg.resume = True
