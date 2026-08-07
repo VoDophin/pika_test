@@ -129,7 +129,8 @@ pick-pika-record --config_path=config/pika_record.yaml
 lerobot-dataset-viz \
   --root=/home/star/lerobot_data/pika_pick_bottle \
   --repo-id local/pika_pick_bottle \
-  --episode-index 0
+  --episode-index 0 \
+  --display-compressed-images true
 ```
 
 确认每集都有图像、`pose.*`、`gripper.pos`、`action.*`。
