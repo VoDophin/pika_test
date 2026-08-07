@@ -77,7 +77,10 @@ pip install -e .
 pip install pysurvive agx-pypika --no-deps
 
 # FFmpeg（torchcodec 解码视频需要，数据集可视化/训练读取视频都依赖）
-conda install -c conda-forge ffmpeg
+# 注意：torchcodec 只支持 FFmpeg 4~7，不要装 8.x（否则 libtorchcodec 加载失败）
+conda install -c conda-forge "ffmpeg=7.1.1"
+# 若 import torchcodec 仍找不到库，手动把环境库路径加进 LD_LIBRARY_PATH：
+# export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
 
 # udev 权限（Pika 串口 / Vive Tracker / 相机），重新插拔后生效
 sudo cp rules/*.rules /etc/udev/rules.d/
