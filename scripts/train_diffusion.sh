@@ -5,7 +5,7 @@
 # 可优先调整 --policy.n_action_steps / 观测长度 / batch_size / 扩散步数。
 set -euo pipefail
 
-DATASET_ROOT="${DATASET_ROOT:-/home/admin1/lerobot_data/pika_pick_bottle}"
+DATASET_ROOT="${DATASET_ROOT:-/home/star/lerobot_data/pika_pick_bottle}"
 DATASET_REPO_ID="${DATASET_REPO_ID:-local/pika_pick_bottle}"
 OUTPUT_DIR="${OUTPUT_DIR:-$HOME/lerobot_datas/train/pika_pick_bottle_dp}"
 STEPS="${STEPS:-200000}"

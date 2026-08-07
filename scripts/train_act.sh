@@ -4,7 +4,7 @@
 # 需要 GPU 与 lerobot 环境（本仓库安装时已带 lerobot==0.4.3）。
 set -euo pipefail
 
-DATASET_ROOT="${DATASET_ROOT:-/home/admin1/lerobot_data/pika_pick_bottle}"
+DATASET_ROOT="${DATASET_ROOT:-/home/star/lerobot_data/pika_pick_bottle}"
 DATASET_REPO_ID="${DATASET_REPO_ID:-local/pika_pick_bottle}"
 OUTPUT_DIR="${OUTPUT_DIR:-$HOME/lerobot_datas/train/pika_pick_bottle}"
 STEPS="${STEPS:-200000}"

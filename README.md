@@ -127,7 +127,7 @@ pick-pika-record --config_path=config/pika_record.yaml
 
 ```bash
 lerobot-dataset-viz \
-  --root=/home/admin1/lerobot_data/pika_pick_bottle \
+  --root=/home/star/lerobot_data/pika_pick_bottle \
   --repo-id local/pika_pick_bottle \
   --episode-index 0
 ```
@@ -149,7 +149,7 @@ bash scripts/train_diffusion.sh
 脚本内变量可通过环境变量覆盖，例如：
 
 ```bash
-DATASET_ROOT=/home/admin1/lerobot_data/pika_pick_bottle \
+DATASET_ROOT=/home/star/lerobot_data/pika_pick_bottle \
 STEPS=200000 BATCH_SIZE=8 SAVE_FREQ=20000 \
 bash scripts/train_act.sh
 ```
@@ -185,7 +185,7 @@ teleop:
   robot_base_pose: [400, 0, 400, 180, 0, 0]
 
 dataset:
-  root: "/home/admin1/lerobot_data/pika_pick_bottle"
+  root: "/home/star/lerobot_data/pika_pick_bottle"   # 改成你有写权限的目录
   repo_id: "local/pika_pick_bottle"   # 训练时 --dataset.repo_id 用这个
   single_task: "Pick up the glass bottle"
   fps: 30

@@ -31,11 +31,14 @@ teleop:
   robot_base_pose: [400, 0, 400, 180, 0, 0]
 
 dataset:
-  root: "/home/admin1/lerobot_data/pika_pick_bottle"
+  # 改成你有写权限的目录（当前用户是 star）；换机器/用户时按实际修改
+  root: "/home/star/lerobot_data/pika_pick_bottle"
   repo_id: "local/pika_pick_bottle"
   single_task: "Pick up the glass bottle"
   fps: 30
   episode_time_s: 30
   reset_time_s: 10
   num_episodes: 30
+  # libsvtav1 不一定安装；libx264 基本所有 ffmpeg 都有，避免保存视频时报错
+  vcodec: "libx264"
   push_to_hub: false
