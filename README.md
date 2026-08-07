@@ -76,6 +76,9 @@ pip install -e .
 # Pika 外设驱动（不带间接依赖）
 pip install pysurvive agx-pypika --no-deps
 
+# FFmpeg（torchcodec 解码视频需要，数据集可视化/训练读取视频都依赖）
+conda install -c conda-forge ffmpeg
+
 # udev 权限（Pika 串口 / Vive Tracker / 相机），重新插拔后生效
 sudo cp rules/*.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && sudo udevadm trigger
@@ -134,6 +137,30 @@ lerobot-dataset-viz \
 ```
 
 确认每集都有图像、`pose.*`、`gripper.pos`、`action.*`。
+
+SSH / headless（无 DISPLAY）下加 `--mode distant`，用浏览器访问机器 IP 的 9090 端口查看：
+
+```bash
+lerobot-dataset-viz \
+  --root=/home/star/lerobot_data/pika_pick_bottle \
+  --repo-id local/pika_pick_bottle \
+  --episode-index 0 \
+  --display-compressed-images true \
+  --mode distant \
+  --web-port 9090
+```
+
+浏览器打开 `http://<工控机IP>:9090`。或者把数据保存成 `.rrd` 文件，拷到有图形界面的机器上用 rerun 打开：
+
+```bash
+lerobot-dataset-viz \
+  --root=/home/star/lerobot_data/pika_pick_bottle \
+  --repo-id local/pika_pick_bottle \
+  --episode-index 0 \
+  --display-compressed-images true \
+  --save 1 \
+  --output-dir /home/star/lerobot_data/viz
+```
 
 ## 训练（ACT / Diffusion Policy）
 
