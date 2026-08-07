@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel>=0.42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot-pika-pick"
+version = "0.1.0"
+description = "Pika standalone data collection for LeRobot imitation learning (no robot arm required)"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+dependencies = [
+    "lerobot==0.4.3",
+    "numpy>=1.24",
+    "pyyaml",
+    "opencv-python",
+]
+
+[project.optional-dependencies]
+# Pika Sense / Vive Tracker drivers; install with: pip install pysurvive agx-pypika --no-deps
+pika = [
+    "pysurvive",
+    "agx-pypika",
+]
+
+[project.scripts]
+pick-pika-teleop = "lerobot_pika_pick.scripts.teleop:main"
+pick-pika-record = "lerobot_pika_pick.scripts.record:main"
+pick-vive-calibrate = "lerobot_pika_pick.scripts.vive_calibrate:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]

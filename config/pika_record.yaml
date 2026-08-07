@@ -1,0 +1,41 @@
+# Pika 单独数据采集（无机械臂/Piper）配置。
+# robot 使用 uf::mock_robot：不连接任何真实机械臂，把 Pika 的动作回显为观测，
+# 只记录 Pika 遥操作 + 相机画面，产出 LeRobot 标准数据集。
+# 采集出的数据可直接用于后续训练：lerobot-train --policy.type=act / diffusion。
+robot:
+  type: uf::mock_robot
+  id: "uf_mock_robot"
+  control_space: "cartesian"
+  gripper_type: 2
+  state_offset_action: 3
+  teleop_id: "pika_pick"
+  cameras:
+    fisheye:
+      type: opencv
+      # 改成你实际相机的节点路径；可用 lerobot-find-cameras opencv 查看。
+      index_or_path: "/dev/v4l/by-id/usb-DECXIN_CAMERA_DECXIN_CAMERA_01.00.00-video-index0"
+      width: 640
+      height: 480
+      fps: 30
+      fourcc: "MJPG"
+
+teleop:
+  type: uf::pika_teleop
+  id: "pika_pick"
+  # 改成实际 Pika Sense 串口（如 /dev/ttyUSB0）；可用 ls /dev/ttyUSB* 查看。
+  port: "/dev/ttyUSB0"
+  frequency: 100
+  use_gripper: true
+  scale_xyz: 1.5
+  tracker_to_robot_eef: [0, 0, 0, 180, -90, 0]
+  robot_base_pose: [400, 0, 400, 180, 0, 0]
+
+dataset:
+  root: "/home/admin1/lerobot_data/pika_pick_bottle"
+  repo_id: "local/pika_pick_bottle"
+  single_task: "Pick up the glass bottle"
+  fps: 30
+  episode_time_s: 30
+  reset_time_s: 10
+  num_episodes: 30
+  push_to_hub: false
