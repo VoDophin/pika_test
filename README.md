@@ -204,6 +204,12 @@ robot:
       height: 480
       fps: 30
       fourcc: "MJPG"
+    third_person:             # 固定第三视角（可选但推荐：不动、覆盖桌面的彩色相机）
+      type: opencv
+      index_or_path: "/dev/video0"
+      width: 640
+      height: 480
+      fps: 30
 
 teleop:
   type: uf::pika_teleop

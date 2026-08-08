@@ -10,7 +10,7 @@ robot:
   state_offset_action: 3
   teleop_id: "pika_pick"
   cameras:
-    fisheye:
+    fisheye:  # 手部视角（Pika 鱼眼，跟着手动的相机）
       type: opencv
       # 改成你实际相机的节点路径；可用 lerobot-find-cameras opencv 查看。
       index_or_path: "/dev/v4l/by-id/usb-DECXIN_CAMERA_DECXIN_CAMERA_01.00.00-video-index0"
@@ -18,6 +18,13 @@ robot:
       height: 480
       fps: 30
       fourcc: "MJPG"
+    third_person:  # 固定第三视角（不动、覆盖桌面的彩色相机）
+      type: opencv
+      # 实测为扩展坞彩色相机；用 by-id 更稳，若重启后节点变化需改这里
+      index_or_path: "/dev/video0"
+      width: 640
+      height: 480
+      fps: 30
 
 teleop:
   type: uf::pika_teleop
