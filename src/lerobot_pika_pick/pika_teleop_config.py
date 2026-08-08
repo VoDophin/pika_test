@@ -29,6 +29,9 @@ class PikaTeleopConfig(TeleoperatorConfig):
     scale_xyz: float = 1.0
     tracker_to_robot_eef: Tuple[float, ...] = (0, 0, 0, 180, -90, 0)    # [x, y, z, roll(°), pitch(°), yaw(°)]
     robot_base_pose: Tuple[float, ...] = (400, 0, 400, 180, 0, 0)       # [x, y, z, roll(°), pitch(°), yaw(°)]
+    # 显式指定 Vive Tracker 设备 ID（如 "T20"），跳过 SDK 设备列表自动检测。
+    # 自动检测存在竞态：偶尔只返回灯塔而漏掉 tracker，导致启动失败。
+    tracker_device_id: str | None = None
 
     def __post_init__(self):
         self.id = 'pika_teleop' if self.id is None else self.id

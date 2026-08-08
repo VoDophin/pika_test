@@ -31,6 +31,8 @@ teleop:
   id: "pika_pick"
   # 改成实际 Pika Sense 串口（如 /dev/ttyUSB0）；可用 ls /dev/ttyUSB* 查看。
   port: "/dev/ttyUSB0"
+  # 显式指定 Vive Tracker ID，跳过 SDK 设备列表自动检测（有竞态会漏检）
+  tracker_device_id: "T20"
   frequency: 100
   use_gripper: true
   scale_xyz: 1.5
